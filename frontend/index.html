@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical CDSS - Login</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="login-page">
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+      <span class="sun-icon">☀️</span>
+      <span class="moon-icon">🌙</span>
+    </button>
+
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <div class="logo">
+            <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+              <path
+                d="M25 5L45 15V35L25 45L5 35V15L25 5Z"
+                fill="currentColor"
+                opacity="0.2"
+              />
+              <path
+                d="M25 10L40 18V32L25 40L10 32V18L25 10Z"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <circle cx="25" cy="25" r="3" fill="currentColor" />
+              <line
+                x1="25"
+                y1="15"
+                x2="25"
+                y2="22"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <line
+                x1="25"
+                y1="28"
+                x2="25"
+                y2="35"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </svg>
+          </div>
+          <h1>Medical CDSS</h1>
+          <p class="subtitle">Clinical Decision Support System</p>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder="doctor@hospital.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">
+            <span class="btn-text">Sign In</span>
+            <span class="btn-loader" style="display: none">
+              <span class="spinner"></span>
+            </span>
+          </button>
+
+          <div class="form-footer">
+            <p>
+              Don't have an account?
+              <a href="#" id="showRegister">Register here</a>
+            </p>
+          </div>
+        </form>
+
+        <!-- Registration Form (Hidden by default) -->
+        <form id="registerForm" class="auth-form" style="display: none">
+          <div class="form-group">
+            <label for="reg-name">Full Name</label>
+            <input
+              type="text"
+              id="reg-name"
+              name="name"
+              required
+              placeholder="Dr. John Doe"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="reg-email">Email Address</label>
+            <input
+              type="email"
+              id="reg-email"
+              name="email"
+              required
+              placeholder="doctor@hospital.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="reg-password">Password</label>
+            <input
+              type="password"
+              id="reg-password"
+              name="password"
+              required
+              placeholder="Minimum 8 characters"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="specialty">Specialty</label>
+            <select id="specialty" name="specialty" required>
+              <option value="">Select specialty</option>
+              <option value="Radiology">Radiology</option>
+              <option value="Pulmonology">Pulmonology</option>
+              <option value="Internal Medicine">Internal Medicine</option>
+              <option value="Emergency Medicine">Emergency Medicine</option>
+              <option value="General Practice">General Practice</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="license">License Number</label>
+            <input
+              type="text"
+              id="license"
+              name="license_number"
+              required
+              placeholder="Medical license number"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">
+            <span class="btn-text">Create Account</span>
+            <span class="btn-loader" style="display: none">
+              <span class="spinner"></span>
+            </span>
+          </button>
+
+          <div class="form-footer">
+            <p>
+              Already have an account? <a href="#" id="showLogin">Sign in</a>
+            </p>
+          </div>
+        </form>
+
+        <div class="alert" id="alertBox" style="display: none"></div>
+      </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+  </body>
+</html>

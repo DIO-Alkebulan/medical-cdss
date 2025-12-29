@@ -1,0 +1,206 @@
+<script type="text/html" id="analysis-html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Analysis - Medical CDSS</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <span class="sun-icon">☀️</span>
+        <span class="moon-icon">🌙</span>
+    </button>
+
+    <div class="dashboard">
+        <!-- Sidebar (Same as dashboard.html) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <svg width="32" height="32" viewBox="0 0 50 50" fill="none">
+                    <path d="M25 5L45 15V35L25 45L5 35V15L25 5Z" fill="currentColor" opacity="0.2"/>
+                    <path d="M25 10L40 18V32L25 40L10 32V18L25 10Z" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <h2>CDSS</h2>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="analysis.html" class="active">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                            New Analysis
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="records.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            Patient Records
+                        </a>
+                    </li>
+                    <li class="nav-item" style="margin-top: auto;">
+                        <a href="#" id="logoutBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="user-profile">
+                <div class="user-avatar">D</div>
+                <div class="user-info">
+                    <h4>Dr. User</h4>
+                    <p>Radiologist</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>New X-Ray Analysis</h1>
+                <p>Upload a chest X-ray image and enter patient information for AI-assisted diagnosis.</p>
+            </div>
+
+            <!-- Upload Section -->
+            <div class="card mb-4">
+                <h2 class="card-title mb-3">Upload X-Ray Image</h2>
+                
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📤</div>
+                    <h3>Drag & Drop X-ray Image Here</h3>
+                    <p>or click to browse (PNG, JPG, JPEG)</p>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                </div>
+
+                <div class="image-preview" id="imagePreview">
+                    <div class="preview-container">
+                        <img id="previewImage" alt="X-ray preview">
+                        <button class="remove-image" id="removeImage">✕</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patient Information Form -->
+            <form id="patientForm" class="card">
+                <h2 class="card-title mb-3">Patient Information</h2>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="patient_name">Patient Name *</label>
+                        <input type="text" id="patient_name" name="patient_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="patient_age">Age *</label>
+                        <input type="number" id="patient_age" name="patient_age" min="0" max="150" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="patient_gender">Gender *</label>
+                        <select id="patient_gender" name="patient_gender" required>
+                            <option value="">Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label>Symptoms *</label>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="symptoms" value="Cough">
+                            <span>Cough</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="symptoms" value="Fever">
+                            <span>Fever</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="symptoms" value="Shortness of breath">
+                            <span>Shortness of breath</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="symptoms" value="Chest pain">
+                            <span>Chest pain</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="symptoms" value="Fatigue">
+                            <span>Fatigue</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="symptoms" value="Night sweats">
+                            <span>Night sweats</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="medical_history">Medical History</label>
+                    <textarea id="medical_history" name="medical_history" placeholder="Previous conditions, medications, allergies..."></textarea>
+                </div>
+
+                <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: var(--text-primary);">Vital Signs</h3>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="temperature">Temperature (°C)</label>
+                        <input type="number" id="temperature" name="temperature" step="0.1" min="35" max="43" placeholder="37.0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="oxygen_saturation">Oxygen Saturation (%)</label>
+                        <input type="number" id="oxygen_saturation" name="oxygen_saturation" min="0" max="100" placeholder="98">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="heart_rate">Heart Rate (bpm)</label>
+                        <input type="number" id="heart_rate" name="heart_rate" min="30" max="200" placeholder="72">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="respiratory_rate">Respiratory Rate (breaths/min)</label>
+                        <input type="number" id="respiratory_rate" name="respiratory_rate" min="5" max="60" placeholder="16">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block mt-4">
+                    <span class="btn-text">🔍 Analyze X-Ray</span>
+                    <span class="btn-loader" style="display: none;">
+                        <span class="spinner"></span>
+                    </span>
+                </button>
+            </form>
+
+            <!-- Results Section (Hidden until analysis complete) -->
+            <div id="resultsSection" class="hidden mt-4">
+                <div class="card">
+                    <h2 class="card-title mb-3">Analysis Results</h2>
+                    <div id="resultsContainer"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/analysis.js"></script>
+</body>
+</html>
+</script>
