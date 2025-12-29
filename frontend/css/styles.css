@@ -291,6 +291,7 @@ body {
 
 .btn-block {
   width: 100%;
+  margin-top: 1.75rem;
 }
 
 .btn-loader {
