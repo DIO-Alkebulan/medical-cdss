@@ -7,28 +7,28 @@ medical-cdss/
 │
 ├── backend/
 │   ├── __init__.py                 # Empty file (makes it a Python package)
-│   ├── main.py                     # FastAPI application (ARTIFACT 1)
-│   ├── models.py                   # Pydantic models (included in ARTIFACT 1)
-│   ├── database.py                 # SQLAlchemy database (included in ARTIFACT 1)
-│   ├── auth.py                     # Authentication utilities (ARTIFACT 6)
-│   ├── ml_inference.py             # ML model inference (included in ARTIFACT 1)
-│   ├── report_generator.py         # PDF report generation (included in ARTIFACT 1)
+│   ├── main.py                     # FastAPI application
+│   ├── models.py                   # Pydantic models
+│   ├── database.py                 # SQLAlchemy database
+│   ├── auth.py                     # Authentication utilities
+│   ├── ml_inference.py             # ML model inference
+│   ├── report_generator.py         # PDF report generation
 │   └── requirements.txt            # Python dependencies
 │
 ├── frontend/
-│   ├── index.html                  # Login page (ARTIFACT 4 - section 1)
-│   ├── dashboard.html              # Dashboard page (ARTIFACT 4 - section 2)
-│   ├── analysis.html               # Analysis page (ARTIFACT 4 - section 3)
-│   ├── records.html                # Records page (ARTIFACT 4 - section 4)
+│   ├── index.html                  # Login page
+│   ├── dashboard.html              # Dashboard page
+│   ├── analysis.html               # Analysis page
+│   ├── records.html                # Records page
 │   │
 │   ├── css/
-│   │   └── styles.css              # All styles (ARTIFACT 2)
+│   │   └── styles.css              # All styles
 │   │
 │   └── js/
-│       ├── auth.js                 # Authentication JS (ARTIFACT 3 - complete)
-│       ├── dashboard.js            # Dashboard JS (ARTIFACT 3 - complete)
-│       ├── analysis.js             # Analysis JS (ARTIFACT 3 - complete)
-│       └── records.js              # Records JS (ARTIFACT 3 - complete)
+│       ├── auth.js                 # Authentication JS
+│       ├── dashboard.js            # Dashboard JS
+│       ├── analysis.js             # Analysis JS
+│       └── records.js              # Records JS
 │
 ├── models/
 │   └── pneumonia_model.pkl         # YOUR TRAINED MODEL (from Google Colab)
