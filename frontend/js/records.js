@@ -1,14 +1,59 @@
-// ============================================================================
-// Patient Records Page Logic
-// ============================================================================
-
 const API_URL = "http://localhost:8000";
+
+// Check Authentication
+function checkAuth() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "index.html";
+    return false;
+  }
+  return token;
+}
+
+// Get Auth Headers
+function getAuthHeaders() {
+  return {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    "Content-Type": "application/json",
+  };
+}
+
+// Initialize Theme
+function initTheme() {
+  const theme = localStorage.getItem("theme") || "light";
+  document.documentElement.setAttribute("data-theme", theme);
+
+  const themeToggle = document.getElementById("themeToggle");
+  if (themeToggle) {
+    themeToggle.addEventListener("click", toggleTheme);
+  }
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute("data-theme");
+  const next = current === "light" ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", next);
+  localStorage.setItem("theme", next);
+}
 
 // Initialize Records Page
 async function initRecordsPage() {
   checkAuth();
+  updateUserInfo();
   await loadAllRecords();
   setupSearch();
+}
+
+// Update User Info
+function updateUserInfo() {
+  const doctorName = localStorage.getItem("doctorName");
+  const userNameEl = document.querySelector(".user-info h4");
+  const userAvatarEl = document.querySelector(".user-avatar");
+
+  if (userNameEl) userNameEl.textContent = doctorName || "Doctor";
+  if (userAvatarEl && doctorName) {
+    userAvatarEl.textContent = doctorName.charAt(0).toUpperCase();
+  }
 }
 
 // Load All Records
@@ -121,6 +166,15 @@ function showRecordModal(data, analysisId) {
     vitalSigns.heart_rate ||
     vitalSigns.respiratory_rate;
 
+  const severityClass =
+    data.analysis.severity === "Severe"
+      ? "danger"
+      : data.analysis.severity === "Moderate"
+      ? "warning"
+      : data.analysis.severity === "Mild"
+      ? "success"
+      : "info";
+
   modal.innerHTML = `
         <div class="card" style="max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
@@ -146,13 +200,9 @@ function showRecordModal(data, analysisId) {
                 <div>
                     <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Analysis Results</h3>
                     <p><strong>Disease:</strong> ${data.analysis.disease}</p>
-                    <p><strong>Severity:</strong> <span class="badge badge-${
-                      data.analysis.severity === "Severe"
-                        ? "danger"
-                        : data.analysis.severity === "Moderate"
-                        ? "warning"
-                        : "success"
-                    }">${data.analysis.severity}</span></p>
+                    <p><strong>Severity:</strong> <span class="badge badge-${severityClass}">${
+    data.analysis.severity
+  }</span></p>
                     <p><strong>Confidence:</strong> ${data.analysis.confidence.toFixed(
                       1
                     )}%</p>
@@ -236,6 +286,39 @@ function showRecordModal(data, analysisId) {
   });
 }
 
+// Download Report (Global function)
+window.downloadReport = async function (analysisId) {
+  try {
+    const response = await fetch(
+      `${API_URL}/api/download/report/${analysisId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `medical_report_${analysisId}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      showAlert("Report downloaded successfully!", "success");
+    } else {
+      showAlert("Failed to download report", "error");
+    }
+  } catch (error) {
+    console.error("Download error:", error);
+    showAlert("Failed to download report", "error");
+  }
+};
+
 // Setup Search
 function setupSearch() {
   const searchInput = document.getElementById("searchRecords");
@@ -252,8 +335,46 @@ function setupSearch() {
   });
 }
 
+// Logout Handler
+function handleLogout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("doctorName");
+  localStorage.removeItem("doctorId");
+  window.location.href = "index.html";
+}
+
+// Show Alert
+function showAlert(message, type = "info") {
+  const alert = document.createElement("div");
+  alert.className = `alert alert-${type}`;
+  alert.style.cssText = `
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        z-index: 9999;
+        max-width: 400px;
+        animation: slideIn 0.3s ease-out;
+    `;
+  alert.textContent = message;
+  document.body.appendChild(alert);
+
+  setTimeout(() => {
+    alert.style.animation = "slideOut 0.3s ease-out";
+    setTimeout(() => alert.remove(), 300);
+  }, 5000);
+}
+
 // Initialize
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   initRecordsPage();
+
+  // Logout button
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      handleLogout();
+    });
+  }
 });
